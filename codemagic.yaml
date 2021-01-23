@@ -1,0 +1,23 @@
+workflows:
+  macos-workflow:
+    name: MacOS Workflow
+    instance_type: mac_mini
+    max_build_duration: 60
+    environment:
+      vars:
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: frame-callback
+          include: true
+          source: true
+    scripts:
+      - name: macOS Full Build Script - https://github.com/obsproject/obs-studio/wiki/Install-Instructions#macos-build-directions
+        script: ./CI/full-build-macos.sh
+    artifacts:
+      - build/rundir/RelWithDebInfo/*
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
