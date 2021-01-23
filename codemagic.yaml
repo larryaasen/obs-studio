@@ -7,6 +7,7 @@ workflows:
       vars:
         TERM: xterm-256color
         SHELL: /bin/bash
+        FCI_CLONE_DEPTH: 1
       xcode: latest
       cocoapods: default
     triggering:
