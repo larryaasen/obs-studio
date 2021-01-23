@@ -13,8 +13,8 @@ workflows:
     triggering:
       events:
         - push
-	- pull_request
-	- tag
+        - pull_request
+        - tag
       branch_patterns:
         - pattern: frame-callback
           include: true
