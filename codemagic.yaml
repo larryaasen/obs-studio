@@ -18,6 +18,8 @@ workflows:
           include: true
           source: true
     scripts:
+      - name: Unpin python - cmake requires the latest version of pinned dependencies
+        script: brew unpin python@3.9
       - name: macOS Full Build Script - https://github.com/obsproject/obs-studio/wiki/Install-Instructions#macos-build-directions
         script: ./CI/full-build-macos.sh
     artifacts:
