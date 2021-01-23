@@ -5,6 +5,7 @@ workflows:
     max_build_duration: 60
     environment:
       vars:
+      	BUILD_TYPE: macos
       xcode: latest
       cocoapods: default
     triggering:
