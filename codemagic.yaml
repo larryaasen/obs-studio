@@ -1,11 +1,12 @@
 workflows:
   macos-workflow:
-    name: MacOS Workflow
+    name: macOS Workflow
     instance_type: mac_mini
     max_build_duration: 60
     environment:
       vars:
-        BUILD_TYPE: macos
+	TERM: xterm-256color
+	SHELL: /bin/bash
       xcode: latest
       cocoapods: default
     triggering:
