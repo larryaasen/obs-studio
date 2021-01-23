@@ -13,10 +13,15 @@ workflows:
     triggering:
       events:
         - push
+	- pull_request
+	- tag
       branch_patterns:
         - pattern: frame-callback
           include: true
           source: true
+        - pattern: '*'
+          include: false
+          source: false
     scripts:
       - name: Unpin python - cmake requires the latest version of pinned dependencies
         script: brew unpin python@3.9
@@ -27,6 +32,10 @@ workflows:
       - /tmp/xcodebuild_logs/*.log
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
     publishing:
+      github_releases:
+        prerelease: false
+        artifact_patterns:
+          - 'build/rundir/RelWithDebInfo/bin/libobs.0.dylib'
       slack:
         channel: '#general'
         notify_on_build_start: true    # To receive a notification when a build starts
