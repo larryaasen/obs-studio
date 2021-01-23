@@ -26,3 +26,10 @@ workflows:
       - build/rundir/RelWithDebInfo/*
       - /tmp/xcodebuild_logs/*.log
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+    publishing:
+      slack:
+        channel: '#general'
+        notify_on_build_start: true    # To receive a notification when a build starts
+        notify:
+          success: true                # To not receive a notification when a build succeeds
+          failure: true                # To not receive a notification when a build fails
