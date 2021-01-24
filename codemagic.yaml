@@ -29,8 +29,8 @@ workflows:
         script: ./CI/full-build-macos.sh
     artifacts:
       - build/rundir/RelWithDebInfo/*
-      - /tmp/xcodebuild_logs/*.log
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+      - libobs/**/*.h
+      - libobs/**/*.hpp
     publishing:
       github_releases:
         prerelease: true
