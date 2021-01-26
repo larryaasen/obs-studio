@@ -27,10 +27,26 @@ workflows:
         script: brew unpin python@3.9
       - name: macOS Full Build Script - https://github.com/obsproject/obs-studio/wiki/Install-Instructions#macos-build-directions
         script: ./CI/full-build-macos.sh
+      - name: ls1
+        script: ls -alR /Users/private/tmp/obsdeps
+      - name: ls2
+        script: ls -alR /tmp/obsdeps
     artifacts:
       - build/rundir/RelWithDebInfo/*
       - libobs/**/*.h
       - libobs/**/*.hpp
+      - /tmp/obsdeps/bin/libavformat.58.dylib
+      - /tmp/obsdeps/bin/libavfilter.7.dylib
+      - /tmp/obsdeps/lib/libfreetype.6.dylib
+      - /tmp/obsdeps/bin/libavutil.56.dylib
+      - /tmp/obsdeps/bin/libavdevice.58.dylib
+      - /tmp/obsdeps/bin/libjansson.4.dylib
+      - /tmp/obsdeps/lib/libmbedcrypto.2.16.5.dylib
+      - /tmp/obsdeps/lib/libluajit-5.1.2.1.0.dylib
+      - /tmp/obsdeps/lib/libmbedtls.2.16.5.dylib
+      - /tmp/obsdeps/lib/libmbedx509.2.16.5.dylib
+      - /tmp/obsdeps/bin/libpostproc.55.dylib
+      - /tmp/obsdeps/lib/librnnoise.0.dylib
     publishing:
       github_releases:
         prerelease: true
