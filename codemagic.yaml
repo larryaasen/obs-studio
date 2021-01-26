@@ -28,8 +28,6 @@ workflows:
       - name: macOS Full Build Script - https://github.com/obsproject/obs-studio/wiki/Install-Instructions#macos-build-directions
         script: ./CI/full-build-macos.sh
       - name: ls1
-        script: ls -alR /Users/private/tmp/obsdeps
-      - name: ls2
         script: ls -alR /tmp/obsdeps
     artifacts:
       - build/rundir/RelWithDebInfo/*
