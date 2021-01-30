@@ -2279,6 +2279,26 @@ static inline void obs_source_frame_destroy(struct obs_source_frame *frame)
 EXPORT void obs_source_frame_copy(struct obs_source_frame *dst,
 				  const struct obs_source_frame *src);
 
+/**
+ * Adds a frame callback for this source.
+ *
+ * @param  source   The source.
+ * @param  frame    The frame callback which is called each time a frame
+ *                  updates.
+ * @param  param    The user data to be associated with this frame callback.
+ */
+EXPORT void obs_source_add_frame_callback(
+				obs_source_t *source,
+				void (*frame)(void *param, obs_source_t *source, struct obs_source_frame *frame),
+				void *param);
+
+/** Removes a frame callback for this source */
+EXPORT void obs_source_remove_frame_callback(
+				obs_source_t *source,
+				void (*frame)(void *param, obs_source_t *source, struct obs_source_frame *frame),
+				void *param);
+
+
 /* ------------------------------------------------------------------------- */
 /* Get source icon type */
 EXPORT enum obs_icon_type obs_source_get_icon_type(const char *id);

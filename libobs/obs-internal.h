@@ -594,6 +594,11 @@ struct caption_cb_info {
 	void *param;
 };
 
+struct source_frame_callback {
+	void (*frame)(void *param, obs_source_t *source, struct obs_source_frame *frame);
+	void *param;
+};
+
 struct obs_source {
 	struct obs_context_data context;
 	struct obs_source_info info;
@@ -763,6 +768,9 @@ struct obs_source {
 
 	struct audio_monitor *monitor;
 	enum obs_monitoring_type monitoring_type;
+
+	pthread_mutex_t frame_callbacks_mutex;
+	DARRAY(struct source_frame_callback) frame_callbacks;
 
 	obs_data_t *private_settings;
 };

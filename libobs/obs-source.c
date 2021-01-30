@@ -185,6 +185,7 @@ static bool obs_source_init(struct obs_source *source)
 	pthread_mutex_init_value(&source->audio_buf_mutex);
 	pthread_mutex_init_value(&source->audio_cb_mutex);
 	pthread_mutex_init_value(&source->caption_cb_mutex);
+	pthread_mutex_init_value(&source->frame_callbacks_mutex);
 
 	if (pthread_mutexattr_init(&attr) != 0)
 		return false;
@@ -203,6 +204,8 @@ static bool obs_source_init(struct obs_source *source)
 	if (pthread_mutex_init(&source->async_mutex, NULL) != 0)
 		return false;
 	if (pthread_mutex_init(&source->caption_cb_mutex, NULL) != 0)
+		return false;
+	if (pthread_mutex_init(&source->frame_callbacks_mutex, NULL) != 0)
 		return false;
 
 	if (is_audio_source(source) || is_composite_source(source))
@@ -697,6 +700,7 @@ void obs_source_destroy(struct obs_source *source)
 	pthread_mutex_destroy(&source->audio_mutex);
 	pthread_mutex_destroy(&source->caption_cb_mutex);
 	pthread_mutex_destroy(&source->async_mutex);
+	pthread_mutex_destroy(&source->frame_callbacks_mutex);
 	obs_data_release(source->private_settings);
 	obs_context_data_free(&source->context);
 
@@ -1988,6 +1992,17 @@ bool update_async_textures(struct obs_source *source,
 	enum convert_type type;
 
 	source->async_flip = frame->flip;
+
+	// Call the registered frame callbacks
+	pthread_mutex_lock(&source->frame_callbacks_mutex);
+
+	for (size_t i = source->frame_callbacks.num; i > 0; i--) {
+		struct source_frame_callback *callback;
+		callback = source->frame_callbacks.array + (i - 1);
+		callback->frame(callback->param, source, frame);
+	}
+
+	pthread_mutex_unlock(&source->frame_callbacks_mutex);
 
 	if (source->async_gpu_conversion && texrender)
 		return update_async_texrender(source, frame, tex, texrender);
@@ -5145,4 +5160,35 @@ void obs_source_media_ended(obs_source_t *source)
 		return;
 
 	obs_source_dosignal(source, NULL, "media_ended");
+}
+
+void obs_source_add_frame_callback(
+	obs_source_t *source,
+	void (*frame)(void *param, obs_source_t *source, struct obs_source_frame *frame),
+	void *param)
+{
+	if (!obs_source_valid(source, "obs_source_add_frame_callback"))
+		return;
+
+	struct source_frame_callback data = {frame, param};
+
+	pthread_mutex_lock(&source->frame_callbacks_mutex);
+	da_push_back(source->frame_callbacks, &data);
+	pthread_mutex_unlock(&source->frame_callbacks_mutex);
+	printf("obs_source_add_frame_callback: added\n");
+}
+
+void obs_source_remove_frame_callback(
+	obs_source_t *source,
+	void (*frame)(void *param, obs_source_t *source, struct obs_source_frame *frame),
+	void *param)
+{
+	if (!source)
+		return;
+
+	struct source_frame_callback data = {frame, param};
+
+	pthread_mutex_lock(&source->frame_callbacks_mutex);
+	da_erase_item(source->frame_callbacks, &data);
+	pthread_mutex_unlock(&source->frame_callbacks_mutex);
 }
