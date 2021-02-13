@@ -35,18 +35,29 @@ workflows:
       - build/rundir/RelWithDebInfo/*
       - libobs/**/*.h
       - libobs/**/*.hpp
-      - /tmp/obsdeps/*/libavformat.58.dylib
-      - /tmp/obsdeps/*/libavfilter.7.dylib
-      - /tmp/obsdeps/*/libavutil.56.dylib
+      - /tmp/obsdeps/*/libavcodec.58.dylib
       - /tmp/obsdeps/*/libavdevice.58.dylib
-      - /tmp/obsdeps/*/libjansson.4.dylib
-      - /tmp/obsdeps/*/libpostproc.55.dylib
-      - /tmp/obsdeps/*/libmbedcrypto.2.24.0.dylib
-      - /tmp/obsdeps/*/libluajit-5.1.2.1.0.dylib
-      - /tmp/obsdeps/*/libmbedtls.2.24.0.dylib
-      - /tmp/obsdeps/*/libmbedx509.2.24.0.dylib
+      - /tmp/obsdeps/*/libavfilter.7.dylib
+      - /tmp/obsdeps/*/libavformat.58.dylib
+      - /tmp/obsdeps/*/libavutil.56.dylib
       - /tmp/obsdeps/*/libfreetype.6.dylib
+      - /tmp/obsdeps/*/libjansson.4.dylib
+      - /tmp/obsdeps/*/libluajit-5.1.2.1.0.dylib
+      - /tmp/obsdeps/*/libmbedcrypto.2.16.5.dylib
+      - /tmp/obsdeps/*/libmbedcrypto.2.24.0.dylib
+      - /tmp/obsdeps/*/libmbedcrypto.5.dylib
+      - /tmp/obsdeps/*/libmbedtls.2.16.5.dylib
+      - /tmp/obsdeps/*/libmbedtls.2.24.0.dylib
+      - /tmp/obsdeps/*/libmbedtls.13.dylib
+      - /tmp/obsdeps/*/libmbedx509.2.16.5.dylib
+      - /tmp/obsdeps/*/libmbedx509.2.24.0.dylib
+      - /tmp/obsdeps/*/libmbedx509.1.dylib
+      - /tmp/obsdeps/*/libpostproc.55.dylib
       - /tmp/obsdeps/*/librnnoise.0.dylib
+      - /tmp/obsdeps/*/libspeexdsp.1.dylib
+      - /tmp/obsdeps/*/libswresample.3.dylib
+      - /tmp/obsdeps/*/libswscale.5.dylib
+      - /tmp/obsdeps/*/libx264.161.dylib
     publishing:
       github_releases:
         prerelease: true
