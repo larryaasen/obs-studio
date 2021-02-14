@@ -25,12 +25,14 @@ workflows:
     scripts:
       - name: Unpin python - cmake requires the latest version of pinned dependencies
         script: brew unpin python@3.9
-      - name: macOS Full Build Script - https://github.com/obsproject/obs-studio/wiki/Install-Instructions#macos-build-directions
-        script: ./CI/full-build-macos.sh
+      - name: macOS Full Build Script with app-bundle - https://github.com/obsproject/obs-studio/wiki/Install-Instructions#macos-build-directions
+        script: ./CI/full-build-macos.sh -b
       - name: ls1
         script: ls -alR /tmp/obsdeps/bin
       - name: ls2
         script: ls -alR /tmp/obsdeps/lib
+      - name: ls3
+        script: ls -alR build/rundir
     artifacts:
       - build/rundir/RelWithDebInfo/*
       - libobs/**/*.h
